@@ -5,6 +5,8 @@
 */
 const API_NOTES = "https://6422d38d001cb9fc2030d81e.mockapi.io/Notes";
 
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
 // Stores fetched notes locally
 let localNoteList;
 
@@ -13,6 +15,7 @@ let displayNotes = document.getElementById("displayNotes");
 // Navbar elements
 const addNoteButton = document.getElementById("addNoteButton");
 const userAccount = document.getElementById("userAccount");
+const currentUsername = document.getElementById("currentUsername");
 const userLogout = document.getElementById("userLogout");
 
 // Background overlay
@@ -99,7 +102,7 @@ const deleteNote = async (noteId) => {
   const response = await fetch(`${API_NOTES}/${noteId}`, params);
   const result = await response.json();
   return true;
-}
+};
 
 const viewSelectedNote = async (index) => {
   const note = localNoteList[index];
@@ -127,14 +130,14 @@ const viewSelectedNote = async (index) => {
 const viewConfirmationScreen = (noteId) => {
   openEditor(confirmationScreen);
 
-  confirmationButton.addEventListener('click', async () => {
+  confirmationButton.addEventListener("click", async () => {
     const response = await deleteNote(noteId);
 
     if (response) {
       window.location.reload();
     }
-  })
-}
+  });
+};
 
 const closeEditor = (editorId) => {
   bgOverlay.classList.add("hidden");
@@ -152,6 +155,9 @@ const openEditor = (editorId) => {
   ================================================================================
 */
 window.onload = async () => {
+  // Set account name to currently logged in username
+  currentUsername.innerHTML = currentUser.username;
+
   // Empty all elements and add a loading screen
   displayNotes.innerHTML = "";
   displayNotes.innerHTML += spinner;
@@ -164,14 +170,18 @@ window.onload = async () => {
   localNoteList.forEach((note, i) => {
     let noteDate = new Date(note.updatedOn);
     let htmlData = `
-      <div class="w-72 h-56 p-3 flex flex-col gap-2 justify-between border rounded-lg border-gray-300">
-        <h2 class="line-clamp-2 font-bold text-xl" onclick="viewSelectedNote(${i})">${note.title}</h2>
-        <div class="line-clamp-5 text-gray-600" onclick="viewSelectedNote(${i})">
+      <div class="w-64 h-56 p-3 flex flex-col gap-3 justify-between border rounded-lg border-gray-300 sm:w-72 xl:w-96">
+        <h2 class="line-clamp-1 font-bold text-xl" onclick="viewSelectedNote(${i})">${
+      note.title
+    }</h2>
+        <div class="line-clamp-4 text-gray-600" onclick="viewSelectedNote(${i})">
           <p>${note.text}</p>
         </div>
         <div class="flex justify-between">
           <div class="p-1 flex gap-3">
-            <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-delete.svg" alt="Delete note" onclick="viewConfirmationScreen(${note.id})">
+            <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-delete.svg" alt="Delete note" onclick="viewConfirmationScreen(${
+              note.id
+            })">
             <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-edit.svg" alt="Edit note" onclick="viewSelectedNote(${i})">
           </div>
           <span class="text-sm text-gray-400 self-end">${noteDate.toLocaleDateString(
@@ -200,4 +210,10 @@ addNoteForm.addEventListener("submit", async (e) => {
   if (response) {
     window.location.reload();
   }
+});
+
+// Removes current user account when logged out
+userLogout.addEventListener("click", () => {
+  localStorage.removeItem("currentUser");
+  window.location.href = "/index.html";
 });
