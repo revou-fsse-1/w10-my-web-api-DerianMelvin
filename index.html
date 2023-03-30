@@ -23,8 +23,14 @@
           />
         </div>
 
-        <div class="w-4/5 p-3 border border-gray-400 rounded-lg sm:w-96 sm:p-6">
-          <form id="formSignIn" action="#" class="w-100% flex flex-col gap-5">
+        <div class="w-4/5 border border-gray-400 rounded-lg sm:w-96">
+          <div class="flex justify-between text-white">
+            <button id="btnSignin" class="basis-1/2 py-3 rounded-tl-lg bg-slate-900">Sign In</button>
+            <button id="btnRegister" class="basis-1/2 py-3 rounded-tr-lg">Register</button>
+          </div>
+
+          <!-- Sign In -->
+          <form id="formSignIn" action="#" class="w-100% p-3 flex flex-col gap-5 sm:p-6">
             <div class="flex flex-col gap-2">
               <label class="text-white" for="username">Username</label>
               <input
@@ -32,17 +38,21 @@
                 type="text"
                 name="username"
                 id="username"
+                placeholder="John Doe"
               />
+              <p id="displayUsername" class="text-red-500 hidden"></p>
             </div>
 
             <div class="flex flex-col gap-2">
               <label class="text-white" for="password">Password</label>
               <input
                 class="px-3 py-2 border border-gray-500 rounded-md"
-                type="text"
+                type="password"
                 name="password"
                 id="password"
+                placeholder="********"
               />
+              <p id="displayPassword" class="text-red-500 hidden"></p>
             </div>
 
             <div class="flex flex-col">
@@ -52,6 +62,44 @@
               >
                 Sign In
               </button>
+              <p id="displaySignin" class="text-red-500 text-center hidden"></p>
+            </div>
+          </form>
+
+          <!-- Register -->
+          <form id="formRegister" action="#" class="w-100% p-3 flex flex-col gap-5 sm:p-6 hidden">
+            <div class="flex flex-col gap-2">
+              <label class="text-white" for="username">Username</label>
+              <input
+                class="px-3 py-2 border border-gray-500 rounded-md"
+                type="text"
+                name="username"
+                id="registerUsername"
+                placeholder="John Doe"
+              />
+              <p id="displayRegisterUsername" class="text-red-500 hidden"></p>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <label class="text-white" for="password">Password</label>
+              <input
+                class="px-3 py-2 border border-gray-500 rounded-md"
+                type="password"
+                name="password"
+                id="registerPassword"
+                placeholder="********"
+              />
+              <p id="displayRegisterPassword" class="text-red-500 hidden"></p>
+            </div>
+
+            <div class="flex flex-col">
+              <button
+                class="p-3 text-white bg-slate-950 rounded-lg"
+                type="submit"
+              >
+                Register
+              </button>
+              <p id="displayRegister" class="text-red-500 text-center hidden"></p>
             </div>
           </form>
         </div>
