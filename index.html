@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="/output.css" />
+  </head>
+  <body
+    class="h-screen bg-gradient-to-br from-sky-900 to-slate-800 bg-no-repeat"
+  >
+    <div class="p-4">
+      <div class="flex flex-col items-center gap-9">
+        <div
+          class="w-4/5 flex flex-col items-center pb-4 border-b border-gray-400 sm:w-3/5 lg:w-2/5"
+        >
+          <img
+            class="w-56 object-contain object-center"
+            src="/assets/notes-logo.svg"
+            alt="notes logo"
+          />
+        </div>
+
+        <div class="w-4/5 p-3 border border-gray-400 rounded-lg sm:w-96 sm:p-6">
+          <form id="formSignIn" action="#" class="w-100% flex flex-col gap-5">
+            <div class="flex flex-col gap-2">
+              <label class="text-white" for="username">Username</label>
+              <input
+                class="px-3 py-2 border border-gray-500 rounded-md"
+                type="text"
+                name="username"
+                id="username"
+              />
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <label class="text-white" for="password">Password</label>
+              <input
+                class="px-3 py-2 border border-gray-500 rounded-md"
+                type="text"
+                name="password"
+                id="password"
+              />
+            </div>
+
+            <div class="flex flex-col">
+              <button
+                class="p-3 text-white bg-slate-950 rounded-lg"
+                type="submit"
+              >
+                Sign In
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="/index.js"></script>
+  </body>
+</html>
