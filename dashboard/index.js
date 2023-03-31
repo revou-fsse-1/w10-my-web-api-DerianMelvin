@@ -22,6 +22,10 @@ const hamburgerButton = document.getElementById("hamburgerButton");
 const mobileMenu = document.getElementById("mobileMenu");
 const userLogoutMobile = document.getElementById("userLogoutMobile");
 
+// Search Bar elements
+const searchNoteMobile = document.getElementById("searchNoteMobile");
+const searchNote = document.getElementById("searchNote");
+
 // Background overlay
 const bgOverlay = document.getElementById("bgOverlay");
 
@@ -173,6 +177,51 @@ const openEditor = (editorId) => {
   editorId.classList.remove("hidden");
 };
 
+const toggleMobileMenu = () => {
+  const hasHidden = mobileMenu.classList.contains("hidden");
+
+  if (hasHidden) {
+    mobileMenu.classList.remove("hidden");
+  } else {
+    mobileMenu.classList.add("hidden");
+  }
+};
+
+const displayNoteList = (noteList) => {
+  if (noteList.length === 0) {
+    displayNotes.innerHTML += `
+      <div class="w-full flex flex-col gap-4 items-center text-center">
+        <img class="w-11 object-contain object-center md:w-16" src="/assets/icon-empty.svg" alt="Empty List" />
+        <h2 class="font-semibold text-2xl lg:text-4xl">There's nothing to see here...</h2>
+        <p class="text-lg text-gray-700 lg:text-2xl">Let's start by creating a new note</p>
+      </div>
+    `;
+  } else {
+    // Stores fetched notes to the local variable
+    localNoteList = noteList;
+
+    localNoteList.forEach((note, i) => {
+      let noteDate = new Date(note.updatedOn);
+      let htmlData = `
+        <div class="w-64 h-56 p-3 flex flex-col gap-3 justify-between border rounded-lg border-gray-300 sm:w-72 xl:w-96">
+          <h2 class="line-clamp-1 font-bold text-xl" onclick="viewSelectedNote(${i})">${note.title}</h2>
+          <div class="line-clamp-4 text-gray-600" onclick="viewSelectedNote(${i})">
+            <p>${note.text}</p>
+          </div>
+          <div class="flex justify-between">
+            <div class="p-1 flex gap-3">
+              <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-delete.svg" alt="Delete note" onclick="viewConfirmationScreen(${note.id})" />
+              <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-edit.svg" alt="Edit note" onclick="viewSelectedNote(${i})" />
+            </div>
+            <span class="text-sm text-gray-400 self-end">${noteDate.toLocaleDateString("en-US")}</span>
+          </div>
+        </div>
+      `;
+      displayNotes.innerHTML += htmlData;
+    });
+  }
+};
+
 /*
   ================================================================================
     EVENT LISTENERS
@@ -188,34 +237,7 @@ window.onload = async () => {
 
   const noteList = await getAllNotes();
 
-  // Stores fetched notes to the local variable
-  localNoteList = noteList;
-
-  localNoteList.forEach((note, i) => {
-    let noteDate = new Date(note.updatedOn);
-    let htmlData = `
-      <div class="w-64 h-56 p-3 flex flex-col gap-3 justify-between border rounded-lg border-gray-300 sm:w-72 xl:w-96">
-        <h2 class="line-clamp-1 font-bold text-xl" onclick="viewSelectedNote(${i})">${
-      note.title
-    }</h2>
-        <div class="line-clamp-4 text-gray-600" onclick="viewSelectedNote(${i})">
-          <p>${note.text}</p>
-        </div>
-        <div class="flex justify-between">
-          <div class="p-1 flex gap-3">
-            <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-delete.svg" alt="Delete note" onclick="viewConfirmationScreen(${
-              note.id
-            })">
-            <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-edit.svg" alt="Edit note" onclick="viewSelectedNote(${i})">
-          </div>
-          <span class="text-sm text-gray-400 self-end">${noteDate.toLocaleDateString(
-            "en-US"
-          )}</span>
-        </div>
-      </div>
-    `;
-    displayNotes.innerHTML += htmlData;
-  });
+  displayNoteList(noteList);
 
   // Remove loading screen
   const loading = document.getElementById("loading");
@@ -243,13 +265,47 @@ addNoteForm.addEventListener("submit", async (e) => {
 });
 
 hamburgerButton.addEventListener("click", () => {
-  const hasHidden = mobileMenu.classList.contains("hidden");
+  toggleMobileMenu();
+});
 
-  if (hasHidden) {
-    mobileMenu.classList.remove("hidden");
-  } else {
-    mobileMenu.classList.add("hidden");
-  }
+searchNoteMobile.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  toggleMobileMenu();
+
+  // Empty all elements and add a loading screen
+  displayNotes.innerHTML = "";
+  displayNotes.innerHTML += spinner;
+
+  const value = searchNoteMobile.children[2].value;
+  const response = await fetch(`${API_NOTES}?title=${value}`);
+  const searchResult = await response.json();
+
+  displayNoteList(searchResult);
+  searchNoteMobile.reset();
+
+  // Remove loading screen
+  const loading = document.getElementById("loading");
+  loading.remove();
+});
+
+searchNote.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Empty all elements and add a loading screen
+  displayNotes.innerHTML = "";
+  displayNotes.innerHTML += spinner;
+
+  const value = searchNote.children[2].value;
+  const response = await fetch(`${API_NOTES}?title=${value}`);
+  const searchResult = await response.json();
+
+  displayNoteList(searchResult);
+  searchNote.reset();
+
+  // Remove loading screen
+  const loading = document.getElementById("loading");
+  loading.remove();
 });
 
 // Removes current user account when logged out
