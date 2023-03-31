@@ -203,13 +203,13 @@ const displayNoteList = (noteList) => {
     localNoteList.forEach((note, i) => {
       let noteDate = new Date(note.updatedOn);
       let htmlData = `
-        <div class="w-64 h-56 p-3 flex flex-col gap-3 justify-between border rounded-lg border-gray-300 sm:w-72 xl:w-96">
+        <div class="group w-64 h-56 p-3 flex flex-col gap-3 justify-between border rounded-lg border-gray-300 transition-all hover:bg-gray-100 hover:border-transparent sm:w-72 xl:w-96">
           <h2 class="line-clamp-1 font-bold text-xl" onclick="viewSelectedNote(${i})">${note.title}</h2>
           <div class="line-clamp-4 text-gray-600" onclick="viewSelectedNote(${i})">
             <p>${note.text}</p>
           </div>
           <div class="flex justify-between">
-            <div class="p-1 flex gap-3">
+            <div class="p-1 flex gap-3 opacity-0 transition-all group-hover:opacity-100">
               <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-delete.svg" alt="Delete note" onclick="viewConfirmationScreen(${note.id})" />
               <img class="w-6 object-contain object-center cursor-pointer" src="/assets/icon-edit.svg" alt="Edit note" onclick="viewSelectedNote(${i})" />
             </div>
