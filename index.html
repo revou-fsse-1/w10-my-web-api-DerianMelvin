@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>NOTES | Homepage</title>
+
+    <link href="/assets/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="/assets/favicon.png" rel="apple-touch-icon" />
 
     <link rel="stylesheet" href="/output.css" />
   </head>
@@ -25,12 +28,26 @@
 
         <div class="w-4/5 border border-gray-400 rounded-lg sm:w-96">
           <div class="flex justify-between text-white">
-            <button id="btnSignin" class="basis-1/2 py-3 rounded-tl-lg rounded-br-lg bg-slate-900">Sign In</button>
-            <button id="btnRegister" class="basis-1/2 py-3 rounded-tr-lg rounded-bl-lg">Register</button>
+            <button
+              id="btnSignin"
+              class="basis-1/2 py-3 rounded-tl-lg rounded-br-lg bg-slate-900"
+            >
+              Sign In
+            </button>
+            <button
+              id="btnRegister"
+              class="basis-1/2 py-3 rounded-tr-lg rounded-bl-lg"
+            >
+              Register
+            </button>
           </div>
 
           <!-- Sign In -->
-          <form id="formSignIn" action="#" class="w-100% p-3 flex flex-col gap-5 sm:p-6">
+          <form
+            id="formSignIn"
+            action="#"
+            class="w-100% p-3 flex flex-col gap-5 sm:p-6"
+          >
             <div class="flex flex-col gap-2">
               <label class="text-white" for="username">Username</label>
               <input
@@ -67,7 +84,11 @@
           </form>
 
           <!-- Register -->
-          <form id="formRegister" action="#" class="w-100% p-3 flex flex-col gap-5 sm:p-6 hidden">
+          <form
+            id="formRegister"
+            action="#"
+            class="w-100% p-3 flex flex-col gap-5 sm:p-6 hidden"
+          >
             <div class="flex flex-col gap-2">
               <label class="text-white" for="username">Username</label>
               <input
@@ -99,7 +120,10 @@
               >
                 Register
               </button>
-              <p id="displayRegister" class="text-red-500 text-center hidden"></p>
+              <p
+                id="displayRegister"
+                class="text-red-500 text-center hidden"
+              ></p>
             </div>
           </form>
         </div>
