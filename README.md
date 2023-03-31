@@ -1,1 +1,15 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-8d59dc4de5201274e310e4c54b9627a8934c3b88527886e3b421487c677d23eb.svg)](https://classroom.github.com/a/fjOilbth)
+# W10 - Web API Website
+
+![banner](/assets/markdown_banner.png)
+
+## 👋 Greetings!
+
+This is a website I made called [NOTES](https://mockapinotes.netlify.app/), A simple note-keeping app using [MockAPI](https://mockapi.io/) where you can create your list of ideas, editing your notes, or delete notes that you don't need anymore.
+
+## 🔗 Links
+### API Documentation - [Postman](https://documenter.getpostman.com/view/14317087/2s93RUtWun)
+
+### Website - [https://mockapinotes.netlify.app/](https://mockapinotes.netlify.app/)
+
+## 🛠️ Tools
+[![Used Tools](https://skillicons.dev/icons?i=html,css,js,tailwind,git,github,netlify)](https://skillicons.dev)
