@@ -14,9 +14,13 @@ let displayNotes = document.getElementById("displayNotes");
 
 // Navbar elements
 const addNoteButton = document.getElementById("addNoteButton");
-const userAccount = document.getElementById("userAccount");
 const currentUsername = document.getElementById("currentUsername");
 const userLogout = document.getElementById("userLogout");
+const hamburgerButton = document.getElementById("hamburgerButton");
+
+// Mobile menu elements
+const mobileMenu = document.getElementById("mobileMenu");
+const userLogoutMobile = document.getElementById("userLogoutMobile");
 
 // Background overlay
 const bgOverlay = document.getElementById("bgOverlay");
@@ -37,7 +41,7 @@ const formEditContent = document.getElementById("formEditContent");
 const confirmationScreen = document.getElementById("confirmationScreen");
 const confirmationButton = document.getElementById("confirmationButton");
 
-// HTML elements
+// HTML components
 const spinner = `
 <div id="loading" class="w-full h-56 flex items-center justify-center">
   <div class="inline-block h-16 w-16 animate-spin rounded-full border-8 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
@@ -105,6 +109,7 @@ const deleteNote = async (noteId) => {
 };
 
 const viewSelectedNote = async (index) => {
+  const deleteBtn = editNoteEditor.children[0].children[0].children[1];
   const note = localNoteList[index];
 
   formEditTitle.value = note.title;
@@ -114,6 +119,12 @@ const viewSelectedNote = async (index) => {
 
   editNoteForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // Remove all child elements & add a loading screen
+    while (editNoteForm.hasChildNodes()) {
+      editNoteForm.removeChild(editNoteForm.firstChild);
+    }
+    editNoteForm.innerHTML += spinner;
 
     const response = await editNote(
       formEditTitle.value,
@@ -125,12 +136,25 @@ const viewSelectedNote = async (index) => {
       window.location.reload();
     }
   });
+
+  deleteBtn.addEventListener("click", () => {
+    closeEditor(editNoteEditor);
+    viewConfirmationScreen(note.id);
+  });
 };
 
 const viewConfirmationScreen = (noteId) => {
   openEditor(confirmationScreen);
 
   confirmationButton.addEventListener("click", async () => {
+    // Remove all child elements & add a loading screen
+    while (confirmationScreen.children[0].hasChildNodes()) {
+      confirmationScreen.children[0].removeChild(
+        confirmationScreen.children[0].firstChild
+      );
+    }
+    confirmationScreen.children[0].innerHTML += spinner;
+
     const response = await deleteNote(noteId);
 
     if (response) {
@@ -205,6 +229,12 @@ addNoteButton.addEventListener("click", () => {
 addNoteForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  // Remove all child elements & add a loading screen
+  while (addNoteForm.hasChildNodes()) {
+    addNoteForm.removeChild(addNoteForm.firstChild);
+  }
+  addNoteForm.innerHTML += spinner;
+
   const response = await createNewNote(formTitle.value, formContent.value);
 
   if (response) {
@@ -212,8 +242,23 @@ addNoteForm.addEventListener("submit", async (e) => {
   }
 });
 
+hamburgerButton.addEventListener("click", () => {
+  const hasHidden = mobileMenu.classList.contains("hidden");
+
+  if (hasHidden) {
+    mobileMenu.classList.remove("hidden");
+  } else {
+    mobileMenu.classList.add("hidden");
+  }
+});
+
 // Removes current user account when logged out
 userLogout.addEventListener("click", () => {
+  localStorage.removeItem("currentUser");
+  window.location.href = "/index.html";
+});
+
+userLogoutMobile.addEventListener("click", () => {
   localStorage.removeItem("currentUser");
   window.location.href = "/index.html";
 });
