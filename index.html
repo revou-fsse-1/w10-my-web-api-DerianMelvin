@@ -73,13 +73,13 @@
             </div>
 
             <div class="flex flex-col">
-              <button
-                class="p-3 text-white bg-slate-950 rounded-lg shadow-lg"
-                type="submit"
-              >
-                Sign In
-              </button>
+              <button class="p-3 text-white bg-slate-950 rounded-lg shadow-lg" type="submit">Sign In</button>
               <p id="displaySignin" class="text-red-500 text-center hidden"></p>
+              <div id="loadingSignin" class="w-full pt-5 flex items-center justify-center hidden">
+                <div class="inline-block h-8 w-8 animate-spin rounded-full text-gray-200 border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                  <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]" >Loading...</span>
+                </div>
+              </div>
             </div>
           </form>
 
@@ -114,16 +114,13 @@
             </div>
 
             <div class="flex flex-col">
-              <button
-                class="p-3 text-white bg-slate-950 rounded-lg shadow-lg"
-                type="submit"
-              >
-                Register
-              </button>
-              <p
-                id="displayRegister"
-                class="text-red-500 text-center hidden"
-              ></p>
+              <button class="p-3 text-white bg-slate-950 rounded-lg shadow-lg" type="submit">Register</button>
+              <p id="displayRegister" class="text-red-500 text-center hidden"></p>
+              <div id="loadingRegister" class="w-full pt-5 flex items-center justify-center hidden">
+                <div class="inline-block h-8 w-8 animate-spin rounded-full text-gray-200 border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                  <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]" >Loading...</span>
+                </div>
+              </div>
             </div>
           </form>
         </div>

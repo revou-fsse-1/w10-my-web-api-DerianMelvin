@@ -3,6 +3,8 @@
     VARIABLES
   ================================================================================
 */
+const API_USERS = "https://6422d38d001cb9fc2030d81e.mockapi.io/users";
+
 // Buttons
 const btnSignin = document.getElementById("btnSignin");
 const btnRegister = document.getElementById("btnRegister");
@@ -11,11 +13,13 @@ const btnRegister = document.getElementById("btnRegister");
 const formSignIn = document.getElementById("formSignIn");
 const username = document.getElementById("username");
 const password = document.getElementById("password");
+const loadingSignin = document.getElementById("loadingSignin");
 
 // Register elements
 const formRegister = document.getElementById("formRegister");
 const registerUsername = document.getElementById("registerUsername");
 const registerPassword = document.getElementById("registerPassword");
+const loadingRegister = document.getElementById("loadingRegister");
 
 let usernameValid = false;
 let passwordValid = false;
@@ -102,31 +106,38 @@ password.addEventListener("input", () => {
   }
 });
 
-formSignIn.addEventListener("submit", (e) => {
+formSignIn.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const userValue = username.value;
   const passwordValue = password.value;
-  const userData = JSON.parse(localStorage.getItem(`user-${userValue}`));
-
-  console.log(userData);
 
   if (usernameValid && passwordValid) {
-    if (userData === null) {
+    loadingSignin.classList.remove("hidden");
+
+    // Fetch user data
+    const response = await fetch(`${API_USERS}?userName=${userValue}`);
+    const jsonData = await response.json();
+    const userData = jsonData[0];
+
+    if (jsonData.length === 0) {
+      loadingSignin.classList.add("hidden");
       setError("displaySignin", "Account doesn't exist");
       setTimeout(() => {
         setSuccess("displaySignin");
       }, 1800);
     } else {
       if (
-        userValue === userData.username &&
+        userValue === userData.userName &&
         passwordValue === userData.password
       ) {
         localStorage.setItem("currentUser", JSON.stringify(userData));
         setSuccess("displaySignin");
+        loadingSignin.classList.add("hidden");
         window.location.href = "/dashboard/index.html";
       } else {
-        setError("displaySignin", "Incorrect password");
+        loadingSignin.classList.add("hidden");
+        setError("displaySignin", "Incorrect username/password");
         setTimeout(() => {
           setSuccess("displaySignin");
         }, 1800);
@@ -159,24 +170,36 @@ registerPassword.addEventListener("input", () => {
   if (value === "") {
     setError("displayRegisterPassword", "Password is required");
     passwordValid = false;
+  } else if (value.length < 5) {
+    setError("displayRegisterPassword", "Password too short");
+    passwordValid = false;
   } else {
     setSuccess("displayRegisterPassword");
     passwordValid = true;
   }
 });
 
-formRegister.addEventListener("submit", (e) => {
+formRegister.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  loadingRegister.classList.remove("hidden");
+
   if (usernameValid && passwordValid) {
-    localStorage.setItem(
-      `user-${registerUsername.value}`,
-      JSON.stringify({
-        username: registerUsername.value,
+    const params = {
+      method: "POST",
+      body: JSON.stringify({
+        userName: registerUsername.value,
         password: registerPassword.value,
-      })
-    );
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const response = await fetch(API_USERS, params);
+    const result = await response.json();
+
     switchForm(btnRegister, btnSignin, formSignIn, formRegister);
+    loadingRegister.classList.add("hidden");
   } else {
     displaySubmitError();
   }

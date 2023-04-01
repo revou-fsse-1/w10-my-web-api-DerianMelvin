@@ -20,6 +20,7 @@ const hamburgerButton = document.getElementById("hamburgerButton");
 
 // Mobile menu elements
 const mobileMenu = document.getElementById("mobileMenu");
+const currentUsernameMobile = document.getElementById("currentUsernameMobile");
 const userLogoutMobile = document.getElementById("userLogoutMobile");
 
 // Search Bar elements
@@ -229,7 +230,8 @@ const displayNoteList = (noteList) => {
 */
 window.onload = async () => {
   // Set account name to currently logged in username
-  currentUsername.innerHTML = currentUser.username;
+  currentUsername.innerHTML = currentUser.userName;
+  currentUsernameMobile.innerHTML = currentUser.userName;
 
   // Empty all elements and add a loading screen
   displayNotes.innerHTML = "";
