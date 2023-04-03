@@ -23,7 +23,8 @@ const loadingRegister = document.getElementById("loadingRegister");
 
 let usernameValid = false;
 let passwordValid = false;
-
+let registerUsernameValid = false;
+let registerPasswordValid = false;
 /*
   ================================================================================
     FUNCTIONS
@@ -38,6 +39,8 @@ const switchForm = (currentBtn, otherBtn, displayForm, hideForm) => {
 
   usernameValid = false;
   passwordValid = false;
+  registerUsernameValid = false;
+  registerPasswordValid = false;
 };
 
 const displaySubmitError = () => {
@@ -47,6 +50,14 @@ const displaySubmitError = () => {
 
   if (!passwordValid) {
     setError("displayPassword", "Invalid Password");
+  }
+
+  if (!registerUsernameValid) {
+    setError("displayRegisterUsername", "Invalid Username");
+  }
+
+  if (!registerPasswordValid) {
+    setError("displayRegisterPassword", "Invalid Password");
   }
 };
 
@@ -154,13 +165,13 @@ registerUsername.addEventListener("input", () => {
 
   if (value === "") {
     setError("displayRegisterUsername", "Username is required");
-    usernameValid = false;
+    registerUsernameValid = false;
   } else if (value.length < 3) {
     setError("displayRegisterUsername", "Username too short");
-    usernameValid = false;
+    registerUsernameValid = false;
   } else {
     setSuccess("displayRegisterUsername");
-    usernameValid = true;
+    registerUsernameValid = true;
   }
 });
 
@@ -169,22 +180,22 @@ registerPassword.addEventListener("input", () => {
 
   if (value === "") {
     setError("displayRegisterPassword", "Password is required");
-    passwordValid = false;
+    registerPasswordValid = false;
   } else if (value.length < 5) {
     setError("displayRegisterPassword", "Password too short");
-    passwordValid = false;
+    registerPasswordValid = false;
   } else {
     setSuccess("displayRegisterPassword");
-    passwordValid = true;
+    registerPasswordValid = true;
   }
 });
 
 formRegister.addEventListener("submit", async (e) => {
   e.preventDefault();
+  
+  if (registerUsernameValid && registerPasswordValid) {
+    loadingRegister.classList.remove("hidden");
 
-  loadingRegister.classList.remove("hidden");
-
-  if (usernameValid && passwordValid) {
     const params = {
       method: "POST",
       body: JSON.stringify({
